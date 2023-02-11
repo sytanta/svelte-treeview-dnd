@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TreeViewNode } from '$lib/types';
+	import type { Node, Tree } from '$lib/types';
 
 	import TreeView from '$lib/TreeView.svelte';
 	import DocIcon from './Icons/Doc.svelte';
@@ -9,78 +9,72 @@
 	import ArrowRight from './Icons/ArrowRight.svelte';
 	import ArrowDown from './Icons/ArrowDown.svelte';
 
-	const nodes1: TreeViewNode[] = [
-		{ type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
-		{
+	const tree1: Tree = {
+		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		folder1: { type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
+		folder2: {
 			type: 'container',
 			name: 'Folder 2',
 			id: 'folder2',
-			children: [
-				{ type: 'container', name: 'Folder 2a', id: 'folder2a' },
-				{ type: 'container', name: 'Folder 2b', id: 'folder2b' },
-				{ type: 'container', name: 'Folder 2c', id: 'folder2c' }
-			]
+			children: ['folder2a', 'folder2b', 'folder2c']
 		},
-		{
+		folder3: {
 			type: 'container',
 			name: 'Folder 3',
 			id: 'folder3',
-			children: [
-				{ type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
-				{
-					type: 'container',
-					name: 'Folder 3b',
-					id: 'folder3b',
-					children: [
-						{ type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
-						{ type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
-						{ type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
-					]
-				},
-				{ type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon }
-			]
-		}
-	];
+			children: ['file3a', 'folder3b', 'file3c']
+		},
+		folder2a: { type: 'container', name: 'Folder 2a', id: 'folder2a' },
+		folder2b: { type: 'container', name: 'Folder 2b', id: 'folder2b' },
+		folder2c: { type: 'container', name: 'Folder 2c', id: 'folder2c' },
+		file3a: { type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
+		folder3b: {
+			type: 'container',
+			name: 'Folder 3b',
+			id: 'folder3b',
+			children: ['file3ba', 'folder3bb', 'file3bc']
+		},
+		file3c: { type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon },
+		file3ba: { type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
+		folder3bb: { type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
+		file3bc: { type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
+	};
 
-	let nodes2: TreeViewNode[] = [
-		{ type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
-		{
+	let tree2: Tree = {
+		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		folder1: { type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
+		folder2: {
 			type: 'container',
 			name: 'Folder 2',
 			id: 'folder2',
-			children: [
-				{ type: 'container', name: 'Folder 2a', id: 'folder2a' },
-				{ type: 'container', name: 'Folder 2b', id: 'folder2b' },
-				{ type: 'container', name: 'Folder 2c', id: 'folder2c' }
-			]
+			children: ['folder2a', 'folder2b', 'folder2c']
 		},
-		{
+		folder3: {
 			type: 'container',
 			name: 'Folder 3',
 			id: 'folder3',
-			children: [
-				{ type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
-				{
-					type: 'container',
-					name: 'Folder 3b',
-					id: 'folder3b',
-					children: [
-						{ type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
-						{ type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
-						{ type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
-					]
-				},
-				{ type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon }
-			]
-		}
-	];
-	let nodes2Obj: Record<string, TreeViewNode> = {};
+			children: ['file3a', 'folder3b', 'file3c']
+		},
+		folder2a: { type: 'container', name: 'Folder 2a', id: 'folder2a' },
+		folder2b: { type: 'container', name: 'Folder 2b', id: 'folder2b' },
+		folder2c: { type: 'container', name: 'Folder 2c', id: 'folder2c' },
+		file3a: { type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
+		folder3b: {
+			type: 'container',
+			name: 'Folder 3b',
+			id: 'folder3b',
+			children: ['file3ba', 'folder3bb', 'file3bc']
+		},
+		file3c: { type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon },
+		file3ba: { type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
+		folder3bb: { type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
+		file3bc: { type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
+	};
 	let collapseAll = false;
 
-	traverseNodes(nodes2);
-
-	const nodes3: TreeViewNode[] = [
-		{
+	const tree3: Tree = {
+		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		folder1: {
 			type: 'container',
 			name: 'Folder 1',
 			id: 'folder1',
@@ -88,108 +82,99 @@
 			iconComponent: ArrowDown,
 			iconComponentCollapsed: ArrowRight
 		},
-		{
+		folder2: {
 			type: 'container',
 			name: 'Folder 2',
 			id: 'folder2',
 			iconComponent: ArrowDown,
 			iconComponentCollapsed: ArrowRight,
-			children: [
-				{
-					type: 'container',
-					name: 'Folder 2a',
-					id: 'folder2a',
-					iconComponent: ArrowDown,
-					iconComponentCollapsed: ArrowRight
-				},
-				{
-					type: 'container',
-					name: 'Folder 2b',
-					id: 'folder2b',
-					iconComponent: ArrowDown,
-					iconComponentCollapsed: ArrowRight
-				},
-				{
-					type: 'container',
-					name: 'Folder 2c',
-					id: 'folder2c',
-					iconComponent: ArrowDown,
-					iconComponentCollapsed: ArrowRight
-				}
-			]
+			children: ['folder2a', 'folder2b', 'folder2c']
 		},
-		{
+		folder3: {
 			type: 'container',
 			name: 'Folder 3',
 			id: 'folder3',
-			children: [
-				{ type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
-				{
-					type: 'container',
-					name: 'Folder 3b',
-					id: 'folder3b',
-					children: [
-						{ type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
-						{ type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
-						{ type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
-					]
-				},
-				{ type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon }
-			]
-		}
-	];
+			children: ['file3a', 'folder3b', 'file3c']
+		},
+		folder2a: {
+			type: 'container',
+			name: 'Folder 2a',
+			id: 'folder2a',
+			iconComponent: ArrowDown,
+			iconComponentCollapsed: ArrowRight
+		},
+		folder2b: {
+			type: 'container',
+			name: 'Folder 2b',
+			id: 'folder2b',
+			iconComponent: ArrowDown,
+			iconComponentCollapsed: ArrowRight
+		},
+		folder2c: {
+			type: 'container',
+			name: 'Folder 2c',
+			id: 'folder2c',
+			iconComponent: ArrowDown,
+			iconComponentCollapsed: ArrowRight
+		},
+		file3a: { type: 'leaf', name: 'document.docx', id: 'file3a', iconComponent: DocIcon },
+		folder3b: {
+			type: 'container',
+			name: 'Folder 3b',
+			id: 'folder3b',
+			children: ['file3ba', 'folder3bb', 'file3bc']
+		},
+		file3c: { type: 'leaf', name: 'document.xls', id: 'file3c', iconComponent: XlsIcon },
+		file3ba: { type: 'leaf', name: 'document.pdf', id: 'file3ba', iconComponent: PdfIcon },
+		folder3bb: { type: 'container', name: 'Folder 3bb', id: 'folder3bb' },
+		file3bc: { type: 'leaf', name: 'document.ppt', id: 'file3bc', iconComponent: PptIcon }
+	};
 
 	function toggleCollapse() {
-		for (let id of Object.keys(nodes2Obj)) {
-			nodes2Obj[id].collapsed = !collapseAll;
+		for (let id of Object.keys(tree2)) {
+			if (id === 'topLevelNodes') continue;
+			tree2[id].collapsed = !collapseAll;
 		}
 
 		collapseAll = !collapseAll;
-		nodes2 = nodes2;
+		tree2 = tree2;
 	}
 
-	function handleNodeClick(event: CustomEvent<{ node: TreeViewNode }>) {
+	function handleNodeClick(event: CustomEvent<{ node: Node }>) {
 		const { node } = event.detail;
 		const { collapsed } = node;
 
 		if (node.type === 'leaf') return;
 
-		nodes2Obj[node.id].collapsed = !collapsed;
-		nodes2 = nodes2;
-	}
-
-	function traverseNodes(nodes: TreeViewNode[]) {
-		nodes.map((node) => {
-			nodes2Obj[node.id] = node;
-			if (node.children) traverseNodes(node.children);
-		});
+		tree2[node.id].collapsed = !collapsed;
+		tree2 = tree2;
 	}
 </script>
 
 <svelte:head>
-	<title>svelte-treeview</title>
+	<title>svelte-treeview-dnd</title>
 </svelte:head>
 
 <header>
-	<h1>svelte-treeview</h1>
+	<h1>svelte-treeview-dnd</h1>
 	<p>Simple treeview component made with Svelte</p>
 </header>
 
 <section class="container">
 	<div class="tree">
 		<h3>Uncontrolled tree view</h3>
-		<TreeView nodes={nodes1} />
+		<TreeView tree={tree1} />
 	</div>
 	<div class="tree">
 		<h3>Controlled tree view</h3>
 		<div class="actions">
 			<button on:click={toggleCollapse}>{collapseAll ? 'Expand all' : 'Collapse all'}</button>
 		</div>
-		<TreeView nodes={nodes2} collapseControlled={true} on:node-click={handleNodeClick} />
+		<TreeView bind:tree={tree2} collapseControlled={true} on:node-click={handleNodeClick} />
 	</div>
 	<div class="tree">
 		<h3>Custom folder icon</h3>
-		<TreeView nodes={nodes3} />
+		<TreeView tree={tree3} />
 	</div>
 </section>
 

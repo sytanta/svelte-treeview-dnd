@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import type { TreeViewNode } from './types';
+	import type { Node, Tree } from './types';
 
 	import FolderOpen from './Icons/FolderOpen.svelte';
 	import FolderClosed from './Icons/FolderClosed.svelte';
 
-	export let node: TreeViewNode;
+	export let tree: Tree;
+	export let node: Node;
 	export let collapseControlled: boolean = false;
 	export let treeNodeClass: string = '';
 	export let childrenContainerClass: string = '';
@@ -56,9 +57,15 @@
 		class={childContainerClass + ' ' + childrenContainerClass}
 		style:margin-left={childPaddingLeft}
 	>
-		{#each node.children as childNode (childNode.id)}
+		{#each node.children as childId (childId)}
 			<div>
-				<svelte:self node={childNode} {treeNodeClass} {childrenContainerClass} on:node-click />
+				<svelte:self
+					{tree}
+					node={tree[childId]}
+					{treeNodeClass}
+					{childrenContainerClass}
+					on:node-click
+				/>
 			</div>
 		{/each}
 	</div>

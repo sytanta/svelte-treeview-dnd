@@ -1,4 +1,4 @@
-import type { TreeViewNode, TreeViewNodeType } from './types';
+import type { Node, Tree, TreeNodeType } from './types';
 import TreeView from './TreeView.svelte';
 
-export { TreeView, TreeViewNode, TreeViewNodeType };
+export { TreeView, Node, Tree, TreeNodeType };

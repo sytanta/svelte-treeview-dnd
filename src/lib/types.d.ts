@@ -1,15 +1,21 @@
 import type { ComponentType } from 'svelte';
 
-export type TreeViewNodeType = 'container' | 'leaf';
+export type TreeNodeType = 'container' | 'leaf';
 
-export interface TreeViewNode {
-	type: TreeViewNodeType;
+export interface Node {
 	id: string;
+	parentNodeId?: string;
 	name: string;
+	type: TreeNodeType;
 	class?: string;
 	iconComponent?: ComponentType;
 	iconComponentCollapsed?: ComponentType;
 	nameComponent?: ComponentType;
 	collapsed?: boolean;
-	children?: TreeViewNode[];
+	children?: string[];
+}
+
+export interface Tree {
+	topLevelNodes: string[];
+	[id: string]: TreeNode;
 }
