@@ -5,7 +5,7 @@ Simple and easy-to-use JSON-based treeview component with custom icon, controlle
 ## Install the package
 
 ```bash
-npm i svelte-tree-dnd
+npm i svelte-treeview-dnd
 ```
 
 ## Usage
