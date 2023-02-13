@@ -133,11 +133,14 @@
 	function toggleCollapse() {
 		for (let id of Object.keys(tree2)) {
 			if (id === 'children') continue;
-			tree2[id].collapsed = !collapseAll;
+			if (!tree2[id].disabled) tree2[id].collapsed = !collapseAll;
 		}
 
 		collapseAll = !collapseAll;
-		tree2 = tree2;
+	}
+
+	function toggleFolder() {
+		tree2['folder2'].disabled = !tree2['folder2'].disabled;
 	}
 
 	function handleNodeClick(event: CustomEvent<{ node: Node }>) {
@@ -169,6 +172,9 @@
 		<h3>Controlled tree view</h3>
 		<div class="actions">
 			<button on:click={toggleCollapse}>{collapseAll ? 'Expand all' : 'Collapse all'}</button>
+			<button on:click={toggleFolder}
+				>{tree2['folder2'].disabled ? 'Enable "Folder 2"' : 'Disable "Folder 2"'}</button
+			>
 		</div>
 		<TreeView bind:tree={tree2} collapseControlled={true} on:node-click={handleNodeClick} />
 	</div>
@@ -198,5 +204,9 @@
 
 	.actions {
 		margin-bottom: 1rem;
+	}
+
+	:global(.disabled) {
+		opacity: 0.3;
 	}
 </style>
