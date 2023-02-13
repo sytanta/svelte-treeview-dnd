@@ -2,9 +2,16 @@
 
 Simple and easy-to-use JSON-based treeview component with:
 
-- custom icon
+- custom icons
 - controlled & uncontrolled modes
 - ability to disable tree nodes
+
+## Changelog
+
+#### 0.1.0 [BREAKING CHANGES]
+
+- Change tree structure for future implementing dnd
+- Add ability to disable nodes
 
 ## Install the package
 
