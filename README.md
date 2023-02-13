@@ -42,7 +42,7 @@ npm i svelte-treeview-dnd
 	}
 </script>
 
-<TreeView tree={tree} />
+<TreeView {tree} />
 ```
 
 - Custom icons
@@ -77,7 +77,7 @@ npm i svelte-treeview-dnd
 	}
 </script>
 
-<TreeView tree={tree} />
+<TreeView {tree} />
 ```
 
 ## To be implemented
