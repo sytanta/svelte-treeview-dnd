@@ -8,6 +8,7 @@
 	import XlsIcon from './Icons/Xls.svelte';
 	import ArrowRight from './Icons/ArrowRight.svelte';
 	import ArrowDown from './Icons/ArrowDown.svelte';
+	import Github from './Icons/Github.svelte';
 
 	const tree1: Tree = {
 		children: ['folder1', 'folder2', 'folder3'],
@@ -184,6 +185,12 @@
 	</div>
 </section>
 
+<footer>
+	<a href="https://github.com/sytanta/svelte-treeview-dnd" target="_blank" rel="nofollow noreferrer"
+		><Github /> Github</a
+	>
+</footer>
+
 <style>
 	header {
 		text-align: center;
@@ -221,5 +228,17 @@
 
 	:global(.disabled) {
 		opacity: 0.3;
+	}
+
+	footer {
+		padding: 2.5rem 0 1.5rem;
+	}
+	footer a {
+		align-items: center;
+		color: black;
+		display: flex;
+		justify-content: center;
+		gap: 0.5rem;
+		text-decoration: none;
 	}
 </style>
