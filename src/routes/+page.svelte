@@ -10,7 +10,7 @@
 	import ArrowDown from './Icons/ArrowDown.svelte';
 
 	const tree1: Tree = {
-		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		children: ['folder1', 'folder2', 'folder3'],
 		folder1: { type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
 		folder2: {
 			type: 'container',
@@ -41,7 +41,7 @@
 	};
 
 	let tree2: Tree = {
-		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		children: ['folder1', 'folder2', 'folder3'],
 		folder1: { type: 'container', name: 'Folder 1', id: 'folder1', collapsed: true },
 		folder2: {
 			type: 'container',
@@ -73,7 +73,7 @@
 	let collapseAll = false;
 
 	const tree3: Tree = {
-		topLevelNodes: ['folder1', 'folder2', 'folder3'],
+		children: ['folder1', 'folder2', 'folder3'],
 		folder1: {
 			type: 'container',
 			name: 'Folder 1',
@@ -132,7 +132,7 @@
 
 	function toggleCollapse() {
 		for (let id of Object.keys(tree2)) {
-			if (id === 'topLevelNodes') continue;
+			if (id === 'children') continue;
 			tree2[id].collapsed = !collapseAll;
 		}
 

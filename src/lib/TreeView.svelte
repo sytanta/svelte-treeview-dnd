@@ -28,7 +28,7 @@
 
 	const emit = createEventDispatcher();
 
-	traverseNodes(tree, tree.topLevelNodes);
+	traverseNodes(tree, tree.children);
 
 	function handleNodeClick(event: CustomEvent<{ node: Node; collapsed: boolean }>) {
 		const { node, collapsed } = event.detail;
@@ -42,7 +42,7 @@
 </script>
 
 <div class={'tree-view ' + treeClass}>
-	{#each tree.topLevelNodes as nodeId (nodeId)}
+	{#each tree.children as nodeId (nodeId)}
 		<div>
 			<TreeNode
 				{tree}

@@ -16,6 +16,6 @@ export interface Node {
 }
 
 export interface Tree {
-	topLevelNodes: string[];
+	children: string[];
 	[id: string]: TreeNode;
 }
