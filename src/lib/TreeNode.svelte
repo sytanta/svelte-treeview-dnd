@@ -3,6 +3,8 @@
 
 	import type { Node, Tree } from './types';
 
+	import { isNodeDisabled } from './utils';
+
 	import FolderOpen from './Icons/FolderOpen.svelte';
 	import FolderClosed from './Icons/FolderClosed.svelte';
 
@@ -22,57 +24,56 @@
 
 	$: nodeClass = `tree-view_node ${node.type} ${
 		collapsedState ? 'tree-view_node-collapsed' : ''
-	} ${treeNodeClass}`;
+	} ${treeNodeClass} ${node.disabled ? 'disabled' : ''}`;
 
 	$: arrowClass = `tree-view_arrow ${collapsedState ? 'tree-view_arrow-collapsed' : ''}`;
 
-	$: childContainerClass = `tree-view_children ${
-		collapsedState ? 'tree-view_children-collapsed' : ''
-	}`;
-
 	function handleClick() {
+		if (isNodeDisabled(node, tree)) return;
 		if (node.type === 'container' && !collapseControlled) collapsedState = !collapsedState;
 		emit('node-click', { node, collapsed: collapsedState });
 	}
 </script>
 
-<button class={nodeClass} on:click={handleClick}>
-	{#if node.iconComponentCollapsed && collapsedState}
-		<svelte:component this={node.iconComponentCollapsed} />
-	{:else if node.iconComponent}
-		<svelte:component this={node.iconComponent} />
-	{:else if node.type === 'container' && collapsedState}
-		<div class={arrowClass}><FolderClosed /></div>
-	{:else if node.type === 'container' && !collapsedState}
-		<div class={arrowClass}><FolderOpen /></div>
+<div class={nodeClass}>
+	<button on:click={handleClick}>
+		{#if node.iconComponentCollapsed && collapsedState}
+			<svelte:component this={node.iconComponentCollapsed} />
+		{:else if node.iconComponent}
+			<svelte:component this={node.iconComponent} />
+		{:else if node.type === 'container' && collapsedState}
+			<div class={arrowClass}><FolderClosed /></div>
+		{:else if node.type === 'container' && !collapsedState}
+			<div class={arrowClass}><FolderOpen /></div>
+		{/if}
+		{#if node.nameComponent}
+			<svelte:component this={node.nameComponent} collapsed={collapsedState} />
+		{:else}
+			<div class="tree-view_name">{node.name}</div>
+		{/if}
+	</button>
+	{#if !collapsedState && node.type === 'container' && node.children?.length}
+		<div
+			class={'tree-view_children ' + childrenContainerClass}
+			style:margin-left={childPaddingLeft}
+		>
+			{#each node.children as childId (childId)}
+				<div>
+					<svelte:self
+						{tree}
+						node={tree[childId]}
+						{treeNodeClass}
+						{childrenContainerClass}
+						on:node-click
+					/>
+				</div>
+			{/each}
+		</div>
 	{/if}
-	{#if node.nameComponent}
-		<svelte:component this={node.nameComponent} collapsed={collapsedState} />
-	{:else}
-		<div class="tree-view_name">{node.name}</div>
-	{/if}
-</button>
-{#if !collapsedState && node.type === 'container' && node.children?.length}
-	<div
-		class={childContainerClass + ' ' + childrenContainerClass}
-		style:margin-left={childPaddingLeft}
-	>
-		{#each node.children as childId (childId)}
-			<div>
-				<svelte:self
-					{tree}
-					node={tree[childId]}
-					{treeNodeClass}
-					{childrenContainerClass}
-					on:node-click
-				/>
-			</div>
-		{/each}
-	</div>
-{/if}
+</div>
 
 <style>
-	.tree-view_node {
+	.tree-view_node button {
 		align-items: center;
 		background: none;
 		border: none;

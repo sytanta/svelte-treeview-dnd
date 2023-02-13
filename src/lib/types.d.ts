@@ -12,6 +12,7 @@ export interface Node {
 	iconComponentCollapsed?: ComponentType;
 	nameComponent?: ComponentType;
 	collapsed?: boolean;
+	disabled?: boolean;
 	children?: string[];
 }
 
